@@ -1,0 +1,38 @@
+body {
+    background-color: #030014;
+    color: antiquewhite;
+}
+
+h1 {
+    font-family: 'DM Sans';
+    font-size: 70px;
+    font-weight: bolder;
+    color: rgb(228, 229, 243);
+    width: 1000px;
+}
+
+h2 {
+    font-family: 'DM Sans';
+    font-size: xx-large;
+    font-weight: 700;
+    color: rgb(228, 229, 243);
+}
+
+.text-gradient{
+    background-image: linear-gradient(to right, #D6C7FF, #AB8BFF);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+}
+
+.moveies-card {
+    padding-left: 18px; 
+    padding-right: 18px;
+    padding-top: 20px;
+    padding-bottom: 20px;
+
+    width: 300px;
+    background-color: #0F0D23;
+    border-radius: 16px;
+
+}
