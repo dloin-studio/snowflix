@@ -11,15 +11,14 @@
 
 </head>
 <body>
-    <div>
-        <nav>
-            <img src="/Assets/logo.png" alt="Snowflix Logo">
-        </nav>
-        <header>
-            <img class="hero-img" src="/Assets/hero-img.png" alt="">
-            
-            <h1>Find the Coziest <span class="text-gradient">Christmas</span> Classics, Uninterrupted</h1>
 
+    <div>
+        <header>
+            <img src="/Assets/logo.png" alt="Snowflix Logo" class="header-logo">
+            <img class="hero-img" src="/Assets/hero-img.png" alt="">
+            <div class="title-container">
+                <h1>Find the Coziest <span class="text-gradient">Christmas</span> Classics, Uninterrupted</h1>
+            </div>
             <div class="search-container">
                 <input type="text" id="search-bar" placeholder="Search through 300+ movies online" 
                        class="search-input">
@@ -40,6 +39,84 @@
             <div class="popular">
             </div>
         </section>
+    </div>
+
+    <div id="movie-modal" class="modal-container" onclick="closeModalOutside(event)">
+        <div class="modal-content">
+            <span class="modal-close" onclick="closeModal()">&times;</span>
+            
+            <div class="modal-header">
+                <div>
+                    <h2 id="modal-title">Movie Title</h2>
+                    <ul class="modal-meta">
+                        <li id="modal-year">2024</li>
+                        <li id="modal-rating-cert">PG-13</li>
+                        <li id="modal-runtime">2h 46m</li>
+                    </ul>
+                </div>
+                <div class="modal-rating-box">
+                    <span>★</span>
+                    <span id="modal-vote-avg">9.0</span>
+                    <span idid="modal-vote-count">/10 (200K)</span>
+                </div>
+            </div>
+
+            <div class="modal-body">
+                <div class="modal-poster">
+                    <img id="modal-poster-img" src="https://placehold.co/300x450/0f0d23/FFF?text=Poster" alt="Movie Poster">
+                </div>
+                <div class="modal-backdrop">
+                    <img id="modal-backdrop-img" src="https://placehold.co/500x281/0f0d23/FFF?text=Backdrop" alt="Movie Backdrop">
+                    <a id="modal-trailer-link" href="#" target="_blank" class="modal-trailer-btn">
+                        ► Trailer <span id="modal-trailer-time">00:31</span>
+                    </a>
+                </div>
+            </div>
+
+            <div class="modal-info-grid">
+                
+                <div class="modal-info-label">Genres</div>
+                <div id="modal-genres" class="modal-info-data modal-genres-list">
+                    <span class="genre-tag">Adventure</span>
+                    <span class="genre-tag">Action</span>
+                    <span class="genre-tag">Drama</span>
+                </div>
+
+                <div class="modal-info-label">Overview</div>
+                <div id="modal-overview" class="modal-info-data">
+                    Loading overview...
+                </div>
+
+                <div class="modal-info-label">Release date</div>
+                <div id="modal-release-date" class="modal-info-data">Loading...</div>
+
+                <div class="modal-info-label">Countries</div>
+                <div id="modal-countries" class="modal-info-data">Loading...</div>
+
+                <div class="modal-info-label">Status</div>
+                <div id="modal-status" class="modal-info-data">Loading...</div>
+
+                <div class="modal-info-label">Language</div>
+                <div id="modal-language" class="modal-info-data">Loading...</div>
+
+                <div class="modal-info-label">Budget</div>
+                <div id="modal-budget" class="modal-info-data">Loading...</div>
+
+                <div class="modal-info-label">Revenue</div>
+                <div id="modal-revenue" class="modal-info-data">Loading...</div>
+
+                <div class="modal-info-label">Tagline</div>
+                <div id="modal-tagline" class="modal-info-data">Loading...</div>
+
+                <div class="modal-info-label">Production</div>
+                <div id="modal-production" class="modal-info-data">Loading...</div>
+            </div>
+            
+            <a id="modal-homepage-link" href="#" target="_blank" class="modal-homepage-btn">
+                Visit Homepage →
+            </a>
+
+        </div>
     </div>
 
     <script src="scripte.js"></script>
