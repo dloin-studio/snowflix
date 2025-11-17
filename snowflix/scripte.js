@@ -1,20 +1,50 @@
 const API_KEY = 'f45c3f06009aa794172b82fca4d9a8f0';
 const TMDB_BASE_URL = 'https://api.themoviedb.org/3';
-const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500'; // For posters
+const IMAGE_BASE_URL = 'https://image.tmdb.org/t/p/w500';
+const BACKDROP_BASE_URL = 'https://image.tmdb.org/t/p/w780';
+const CHRISTMAS_KEYWORD_ID = '207317';
+
+let popularPage = 1;
 
 document.addEventListener('DOMContentLoaded', () => {
     const popularContainer = document.querySelector('.popular');
     const trendingContainer = document.querySelector('.trending');
+    const seeMoreBtn = document.getElementById('see-more-btn');
+    const searchBar = document.getElementById('search-bar'); 
+
+    searchBar.addEventListener('keydown', (event) => {
+        if (event.key === 'Enter') {
+            event.preventDefault(); 
+            const query = searchBar.value.trim();
+
+            popularContainer.innerHTML = ''; 
+
+            if (query) {
+                seeMoreBtn.style.display = 'none';
+                fetchSearchResults(popularContainer, query);
+            } else {
+                popularPage = 1;
+                seeMoreBtn.style.display = 'block';
+                fetchPopularMovies(popularContainer);
+            }
+        }
+    });
+
+    seeMoreBtn.addEventListener('click', () => {
+        popularPage++; 
+        fetchPopularMovies(popularContainer); 
+    });
     
-    // Fetch real data from the API
+    popularContainer.innerHTML = '';
+    
     fetchPopularMovies(popularContainer);
     fetchTrendingMovies(trendingContainer);
 });
 
-// NEW: Fetches popular movies from TMDB
+// Fetches popular movies from TMDB
 async function fetchPopularMovies(container) {
     try {
-        const url = `${TMDB_BASE_URL}/movie/popular?api_key=${API_KEY}`;
+        const url = `${TMDB_BASE_URL}/discover/movie?api_key=${API_KEY}&with_keywords=${CHRISTMAS_KEYWORD_ID}&sort_by=vote_count.desc&page=${popularPage}`;        
         const response = await fetch(url);
         const data = await response.json();
         populateSection(container, data.results); // Use the results from the API
@@ -26,8 +56,7 @@ async function fetchPopularMovies(container) {
 // NEW: Fetches trending movies from TMDB
 async function fetchTrendingMovies(container) {
     try {
-        const url = `${TMDB_BASE_URL}/trending/movie/week?api_key=${API_KEY}`;
-        const response = await fetch(url);
+        const url = `${TMDB_BASE_URL}/discover/movie?api_key=${API_KEY}&with_keywords=${CHRISTMAS_KEYWORD_ID}&sort_by=popularity.desc`;        const response = await fetch(url);
         const data = await response.json();
         populateTrending(container, data.results); // Use the results from the API
     } catch (error) {
@@ -35,15 +64,25 @@ async function fetchTrendingMovies(container) {
     }
 }
 
+async function fetchSearchResults(container, query) {
+    try {
+        const url = `${TMDB_BASE_URL}/search/movie?api_key=${API_KEY}&query=${query}&page=1`;
+        const response = await fetch(url);
+        const data = await response.json();
+        populateSection(container, data.results); // Reuse your existing card builder
+    } catch (error) {
+        console.error('Error fetching search results:', error);
+    }
+}
+
 // UPDATED: Builds 'Popular' cards using API data
 function populateSection(container, movies) {
     if (!container) return; 
-    container.innerHTML = ''; 
-    
+        
     movies.forEach(movie => {
         const posterPath = movie.poster_path 
-            ? `${IMAGE_BASE_URL}${movie.poster_path}`
-            : 'https://placehold.co/300x450/0f0d23/FFF?text=No+Image';
+            ? `${BACKDROP_BASE_URL}${movie.backdrop_path}`
+            : 'https://placehold.co/500x281/0f0d23/FFF?text=No+Backdrop';
 
         const movieCardHTML = `
             <div class="moveies-card" onclick="showMovieDetails(${movie.id})">
@@ -68,8 +107,8 @@ function populateTrending(container, movies) {
     container.innerHTML = '';
 
     let count = 1;
-    // Get only the top 6
-    movies.slice(0, 6).forEach(movie => {
+    // Get only the top 10
+    movies.slice(0, 10).forEach(movie => {
         const posterPath = movie.poster_path 
             ? `${IMAGE_BASE_URL}${movie.poster_path}`
             : 'https://placehold.co/300x450/0f0d23/FFF?text=No+Image';
@@ -89,7 +128,6 @@ function populateTrending(container, movies) {
 // All modal functions
 async function showMovieDetails(movieId) {
     const modal = document.getElementById('movie-modal');
-    modal.style.display = 'block';
     
     const url = `${TMDB_BASE_URL}/movie/${movieId}?api_key=${API_KEY}&append_to_response=videos,release_dates`;
     
@@ -111,9 +149,10 @@ async function showMovieDetails(movieId) {
             ? `${IMAGE_BASE_URL}${data.poster_path}` 
             : 'https://placehold.co/300x450/0f0d23/FFF?text=No+Poster';
             
+        // UPDATED: Using new backdrop URL
         document.getElementById('modal-backdrop-img').src = data.backdrop_path 
-            ? `${IMAGE_BASE_URL}${data.backdrop_path}` 
-            : 'https://placehold.co/500x281/0f0d23/FFF?text=No+Backdrop';
+            ? `${BACKDROP_BASE_URL}${data.backdrop_path}` 
+            : 'https://placehold.co/500x281/0f0d23/FFF?text=Backdrop';
         
         const trailer = getTrailer(data.videos);
         const trailerLink = document.getElementById('modal-trailer-link');
@@ -146,6 +185,10 @@ async function showMovieDetails(movieId) {
         } else {
             homepageLink.style.display = 'none';
         }
+        
+        modal.style.opacity = '1';
+        modal.style.visibility = 'visible';
+        document.querySelector('.modal-content').style.transform = 'scale(1)';
 
     } catch (error) {
         console.error('Error fetching movie details:', error);
@@ -153,19 +196,45 @@ async function showMovieDetails(movieId) {
     }
 }
 
+// UPDATED: This function now resets ALL modal fields
 function closeModal() {
     const modal = document.getElementById('movie-modal');
-    modal.style.display = 'none';
     
+    modal.style.opacity = '0';
+    modal.style.visibility = 'hidden';
+    document.querySelector('.modal-content').style.transform = 'scale(0.95)';    
+
+    // Reset all text and images to their placeholder state
     document.getElementById('modal-title').innerText = "Loading...";
     document.getElementById('modal-poster-img').src = "https://placehold.co/300x450/0f0d23/FFF?text=Poster";
     document.getElementById('modal-backdrop-img').src = "https://placehold.co/500x281/0f0d23/FFF?text=Backdrop";
+    
+    document.getElementById('modal-year').innerText = "....";
+    document.getElementById('modal-rating-cert').innerText = "...";
+    document.getElementById('modal-runtime').innerText = "...";
+    document.getElementById('modal-vote-avg').innerText = "0.0";
+    document.getElementById('modal-vote-count').innerText = "/10 (0)";
+    
+    document.getElementById('modal-genres').innerHTML = ''; // Clear genres
+    document.getElementById('modal-overview').innerText = "Loading overview...";
+    
+    document.getElementById('modal-release-date').innerText = "Loading...";
+    document.getElementById('modal-countries').innerText = "Loading...";
+    document.getElementById('modal-status').innerText = "Loading...";
+    document.getElementById('modal-language').innerText = "Loading...";
+    document.getElementById('modal-budget').innerText = "Loading...";
+    document.getElementById('modal-revenue').innerText = "Loading...";
+    document.getElementById('modal-tagline').innerText = "Loading...";
+    document.getElementById('modal-production').innerText = "Loading...";
+
+    document.getElementById('modal-homepage-link').style.display = 'none';
+    document.getElementById('modal-trailer-link').style.display = 'none';
 }
 
 function closeModalOutside(event) {
     const modal = document.getElementById('movie-modal');
     if (event.target == modal) {
-        modal.style.display = "none";
+        closeModal(); // Call your new, full-reset closeModal function
     }
 }
 
@@ -192,8 +261,11 @@ function formatVoteCount(count) {
 function getRatingCert(releaseDates) {
     try {
         const usRelease = releaseDates.results.find(r => r.iso_3166_1 === 'US');
-        const cert = usRelease.release_dates[0].certification;
-        return cert || 'N/A';
+        if (usRelease && usRelease.release_dates[0]) {
+            const cert = usRelease.release_dates[0].certification;
+            return cert || 'N/A';
+        }
+        return 'N/A';
     } catch (error) {
         return 'N/A';
     }

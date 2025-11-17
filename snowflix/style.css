@@ -1,9 +1,9 @@
 :root {
-    --bg-dark: #030014;
-    --card-bg: #0f0d23;
+    --bg-dark: #340909;
+    --card-bg: #0d3628; 
     --text-primary: rgb(228, 229, 243);
     --placeholder-color: #9ca3af;
-    --accent-purple: #AB8BFF;
+    --accent-purple: #E2B044;
 }
 
 * {
@@ -27,16 +27,8 @@ button,
     cursor: url('/Assets/pointer.png'), pointer;
 }
 
-.header-logo {
-    display: block;
-    margin-left: auto;
-    margin-right: auto;
-    padding-top: 32px;
-    text-align: center;
-}
-
 header {
-        background-image: url('/Assets/background.png');
+    margin-top: -2rem;
         background-size: cover;
         background-position: center;
         background-repeat: no-repeat;
@@ -47,7 +39,7 @@ header {
     text-align: center;
     width: 100%;
 
-    margin-top: -3.3rem;
+    margin-top: -3.2rem;
 }
 
 .title-container h1 {
@@ -56,6 +48,7 @@ header {
     margin-left: auto;
     margin-right: auto;
     
+    line-height: 4.6rem;
     text-align: center;
 }
 
@@ -106,7 +99,7 @@ h2 {
     width: 100%;
     background-color: var(--card-bg); 
     color: var(--text-primary); 
-    margin-top: 16px;
+    margin-top: 32px;
     padding-top: 1.2rem; 
     padding-bottom: 1.2rem; 
     padding-left: 3rem;
@@ -127,7 +120,7 @@ h2 {
 .search-icon {
     position: absolute;
     left: 1rem;
-    top: 60%; 
+    top: 70%; 
     transform: translateY(-50%); 
     width: 1.25rem;
     height: 1.25rem;
@@ -139,6 +132,27 @@ h2 {
     display: grid;
     gap: 1.5rem;
     grid-template-columns: 1fr;
+}
+
+/* "SEE MORE" BUTTON STYLES */
+.see-more-container {
+    text-align: center;
+    margin-top: 2rem;
+}
+
+.see-more-btn {
+    background-color: var(--accent-purple);
+    color: var(--text-primary);
+    font-weight: 700;
+    font-size: 1rem;
+    border: none;
+    padding: 0.75rem 2rem;
+    border-radius: 8px;
+    transition: opacity 0.2s;
+}
+
+.see-more-btn:hover {
+    opacity: 0.8;
 }
 
 @media (min-width: 640px) {
@@ -209,9 +223,10 @@ h2 {
 .trending {
     margin-top: 32px;
     display: flex;
-    gap: 3.8rem; /* 40px */
+    gap: 6.4rem;
     overflow-x: auto;
-    padding-bottom: 2rem; 
+    padding-bottom: 2rem;
+    padding-left: 6rem;
 }
 
 .trending-card {
@@ -223,13 +238,14 @@ h2 {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
-    left: -3rem; 
-    font-size: 10rem; 
+    left: -5.3rem; 
+    font-size: 12rem; 
     font-weight: 700;
     line-height: 1;
     color: transparent;
-    -webkit-text-stroke: 2px #CECEFB1A;
+    -webkit-text-stroke: 2px #ffffff1a;
     z-index: 1;
+    color: #3d1111;
 }
 
 .trending-card img {
@@ -250,10 +266,22 @@ h2 {
     scrollbar-width: none;
 }
 
+.trending-card:nth-child(1) .trending-card-number {
+    left: -4.0rem;
+}
+
+.trending-card:nth-child(10) .trending-card-number {
+    left: -8.5rem;
+    padding-left: 60px;
+}
+
+.trending-card:nth-child(10) {
+    padding-left: 60px;
+
+}
 
 /* Modal Styles */
 .modal-container {
-    display: none; 
     position: fixed; 
     z-index: 100; 
     left: 0;
@@ -263,6 +291,10 @@ h2 {
     overflow: auto; 
     background-color: rgba(0, 0, 0, 0.85);
     backdrop-filter: blur(5px);
+
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.3s ease;
 }
 
 .modal-content {
@@ -274,6 +306,9 @@ h2 {
     width: 90%;
     position: relative;
     border: 1px solid #333;
+
+    transform: scale(0.95);
+    transition: transform 0.3s ease;
 }
 
 .modal-close {
@@ -344,7 +379,7 @@ h2 {
 
 .modal-poster img {
     width: 100%;
-    height: auto;
+    height: 100%;
     border-radius: 12px;
 }
 
@@ -423,3 +458,4 @@ h2 {
 .modal-homepage-btn:hover {
     opacity: 0.8;
 }
+
