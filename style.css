@@ -1,3 +1,43 @@
+@media (max-width: 768px) {
+    h1 {
+        font-size: 44px;
+        line-height: 1.2;
+    }
+
+    h2 {
+        font-size: 32px;
+    }
+
+    .trending-card-number {
+        font-size: 8rem;
+        left: -3rem;
+    }
+
+    .trending-card:nth-child(10) {
+        padding-left: 0px;
+    }
+
+    .modal-body {
+        grid-template-columns: 1fr;
+    }
+
+    .modal-poster img {
+        height: 300px;
+        width: auto;
+        margin: 0 auto;
+        display: block;
+    }
+
+    .modal-info-grid {
+        grid-template-columns: 100px 1fr;
+    }
+
+    .title-container h1 {
+        line-height: 1.2;
+    }
+}
+
+
 :root {
     --bg-dark: #340909;
     --card-bg: #0d3628; 
@@ -58,7 +98,8 @@ header {
     margin-right: auto;
 
     height: 560px;
-
+    width: 650px;
+    object-fit: cover;
 }
 
 section {
