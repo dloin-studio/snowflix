@@ -89,7 +89,7 @@ function populateSection(container, movies) {
                 <img src="${posterPath}" alt="${movie.title}"> 
                 <h3>${movie.title}</h3> 
                 <div class="details-row">
-                    <img src="/Assets/star.svg">
+                    <img src="Assets/star.svg">
                     <h4>${movie.vote_average.toFixed(1)}</h4>
                     <div>
                         <span>• ${movie.release_date.split('-')[0]}</span> 
