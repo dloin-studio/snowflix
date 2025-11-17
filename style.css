@@ -13,7 +13,7 @@
 }
 
 body {
-    cursor: url('/Assets/cursor.png'), auto;
+    cursor: url('Assets/cursor.png'), auto;
     background-color: var(--bg-dark);
     color: antiquewhite;
     font-family: 'DM Sans', sans-serif;
@@ -24,7 +24,7 @@ button,
 .moveies-card,
 .trending-card,
 .search-icon {
-    cursor: url('/Assets/pointer.png'), pointer;
+    cursor: url('Assets/pointer.png'), pointer;
 }
 
 header {
@@ -323,7 +323,7 @@ h2 {
 .modal-close:focus {
     color: var(--text-primary);
     text-decoration: none;
-    cursor: url('/Assets/pointer.png'), pointer;
+    cursor: url('Assets/pointer.png'), pointer;
 }
 
 .modal-header {
